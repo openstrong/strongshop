@@ -143,6 +143,7 @@ Route::any('region/regionContinent/create', 'Admin\Region\RegionContinentControl
 Route::any('region/regionContinent/update', 'Admin\Region\RegionContinentController@update');
 Route::any('region/regionContinent/destroy', 'Admin\Region\RegionContinentController@destroy');
 //网站配置
+Route::any('webconfig/show', 'Admin\WebconfigController@showForm');//配置详情
 Route::any('webconfig/save/config', 'Admin\WebconfigController@saveConfig');//保存配置
 Route::any('webconfig/clearcache', 'Admin\WebconfigController@clearcache');//清楚缓存
 Route::any('webconfig/sendReceiveMailTest', 'Admin\WebconfigController@sendReceiveMailTest');//清楚缓存

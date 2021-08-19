@@ -12,7 +12,7 @@
 
 @section('content')
 <div class="st-h15"></div>
-<form class="layui-form" action="">
+<form class="layui-form" action="/admin/webconfig/save/config">
     <button type="button" id="clearcache" class="layui-btn layui-btn-sm">清楚缓存</button>
     <div class="layui-tab layui-tab-brief">
         <ul class="layui-tab-title">
@@ -96,7 +96,7 @@
                         <div class="layui-form-item">
                             <label class="layui-form-label st-form-input-required">邮箱密码</label>
                             <div class="layui-input-block">
-                                <input type="text" name="MAIL_PASSWORD" value="{{$data['MAIL_PASSWORD'] ?? ''}}" autocomplete="off" placeholder="" class="layui-input">
+                                <input type="password" name="MAIL_PASSWORD" value="" autocomplete="off" placeholder="" class="layui-input">
                             </div>
                         </div>
                         <div class="layui-form-item">

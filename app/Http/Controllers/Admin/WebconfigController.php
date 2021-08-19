@@ -27,6 +27,17 @@ use Illuminate\Support\Facades\Mail;
 class WebconfigController extends BaseController
 {
 
+    public function showForm(Request $request, Webconfig $webconfig)
+    {
+        $rows = WebConfig::query()->get();
+        $data = [];
+        foreach ($rows as $row)
+        {
+            $data[$row->key] = $row->value;
+        }
+        return $this->view('webconfig.setconfig', ['data' => $data]);
+    }
+
     /**
      * 保存配置项值
      * @param Request $request
@@ -34,21 +45,15 @@ class WebconfigController extends BaseController
      */
     public function saveConfig(Request $request, Webconfig $webconfig)
     {
-        if (!$request->expectsJson())
-        {
-            $rows = WebConfig::query()->get();
-            $data = [];
-            foreach ($rows as $row)
-            {
-                $data[$row->key] = $row->value;
-            }
-            return $this->view('webconfig.setconfig', ['data' => $data]);
-        }
+        $except = ['MAIL_PASSWORD'];
+        //WebConfig::query()->whereNotIn('key', $except)->update(['value' => null]);
 
-        WebConfig::query()->update(['value' => null]);
-        
         foreach ($request->all() as $key => $value)
         {
+            if (empty($value) && in_array($key, $except))
+            {
+                continue;
+            }
             $model = WebConfig::where('key', $key)->first();
             if (!$model)
             {
