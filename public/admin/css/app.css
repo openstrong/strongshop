@@ -1,0 +1,164 @@
+/** BEGIN layui 默认样式修改 **/
+.layui-form .layui-form-item{
+    position: relative;
+}
+.layui-table-tool-temp{
+    /*position: absolute;top:10px;right: 17px;*/
+}
+.st-form-search .layui-form-item .layui-inline{
+    margin-right: 0;
+}
+.st-form-search .layui-form-label{
+    padding-left: 0;padding-right: 5px;color:gray;width: auto;padding: 2px 15px;padding-left:0;padding-right: 5px;
+}
+.st-form-search .layui-input-inline{
+    margin-right: 10px;width: 100px;
+}
+.st-form-search .layui-input{
+    height: 24px;
+}
+/** END layui 默认样式修改 *
+
+/** BEGIN 自定义样式 **/
+.st-h10{height: 10px;}
+.st-h15{height: 15px;}
+.st-h20{height: 20px;}
+.st-h50{height: 50px;}
+.st-h100{height: 100px;}
+.st-iframe-body{
+    padding:0px 0px 0px 0px;
+}
+.st-iframe-body iframe{
+    position: absolute;top:0;left: 0;right: 0;bottom: 0;width: 100%;height: 100%;
+}
+.st-body{
+    /*padding-top:15px;*/
+}
+.st-footer{
+    text-align: center;height:30px !important;line-height: 30px !important;font-size:12px;color:#999;
+}
+.st-form-input-required:after{
+    content: "*";color:#FF5722;font-weight: bold;font-size: 18px;position: absolute;top:13px;right: 7px;
+}
+.st-form-tip{
+    font-size:12px;display: none;padding: 0 0 !important;
+}
+.st-form-tip-error{
+    color:#FF5722 !important;
+}
+.st-form-tip-help{
+    font-size:13px;cursor: pointer;color: #1E9FFF;font-weight: lighter;
+}
+.st-form-tip-help:hover{
+    font-weight: bold;
+}
+.st-tool-bar{
+    /*line-height: 44px;*/
+}
+.st-tree-table{
+    cursor: pointer;
+}
+.st-tree-table i{
+    padding-right: 3px;
+}
+.st-tree-table-indent{
+    padding:0 9px;
+}
+.st-body .layui-tab-content{
+    padding: 10px 0;
+}
+.st-body .layui-tab{
+    margin: 0;
+}
+.st-form-submit-btn-fix{
+    position: fixed !important;bottom: 0;right: 0;
+}
+.st-sortable-image{
+    list-style-type: none; margin: 0; padding: 0;
+}
+.st-sortable-image li{
+    margin: 5px; margin-left:0; width: 100%; height: auto; font-size: 12px; text-align: center;border-top:1px solid #ccc;cursor:move;position: relative;min-height: 50px;padding:5px;
+}
+.st-sortable-image li img{
+    border: none;width:100%;
+}
+.st-sortable-image li i.layui-icon-delete{
+    font-size: 18px;color:red;cursor: pointer;
+}
+.st-sortable-image li span{
+    font-size: 12px;color:gray;position: absolute;bottom: -17px;display: none;width:50px;left:24px;
+}
+.st-sortable-image li:nth-child(2) span{
+    display:inline;
+}
+.st-sortable-image li>table>tbody>tr>td:nth-child(1){
+    width:10%;
+}
+.st-sortable-image li>table>tbody>tr>td:nth-child(2){
+    width:30%;
+}
+.st-sortable-image li>table>tbody>tr>td:nth-child(3){
+    width:30%;
+}
+.st-sortable-image li>table>tbody>tr>td:nth-child(4){
+    width:20%;
+}
+.st-sortable-image li>table>tbody>tr>td:nth-child(5){
+    width:9%;
+}
+.st-sortable-image label,.st-sortable-image input[type=radio]{
+    cursor: pointer;
+}
+.st-sortable-image label{
+    display: inline-block;
+    width:100%;
+    padding: 20px 0;
+}
+.st-login-box{
+    width:350px;height: 350px;
+}
+.st-login-box .st-login{
+    margin-top:100px;
+}
+.st-login-box .st-login fieldset legend{
+    margin-left: 55px;
+}
+.st-login-box .st-login input[name=captcha]{
+    width: 106px;
+}
+.st-login-box .st-login img.captcha{
+    width:100px;margin-left: 6px;cursor: pointer;
+}
+.st-login-box .layui-input-inline{
+    width:auto;margin-right: 0;
+}
+.st-login-box button[type="submit"]{
+    width: 100%;
+}
+.st-btn-bg-succ{
+    background-color:#5FB878;
+}
+.st-leftmenu .layui-nav-child dd{
+    padding-left: 10px;
+}
+.st-form-wholesale{
+    width:500px;
+}
+.st-form-wholesale input{
+    width:80px;
+}
+.st-badge-wholesale{
+    float:right;position: absolute;right: 2px;bottom: 0;
+}
+.st-img-zoom{
+    cursor: pointer;
+    height:80%;
+    max-width: 500px !important;
+}
+.st-sepc-tip{
+    font-size:12px;color:gray;
+}
+#ST-UPLOAD{
+    width:80%;
+}
+/** END 自定义样式 **/
