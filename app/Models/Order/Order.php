@@ -332,7 +332,7 @@ class Order extends Model
      */
     public function buyer()
     {
-        return $this->belongsTo(\App\Models\User::class, 'user_id');
+        return $this->belongsTo(\App\Models\User::class, 'user_id')->withTrashed();
     }
 
     /**

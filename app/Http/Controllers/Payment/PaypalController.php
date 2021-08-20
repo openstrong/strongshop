@@ -33,131 +33,6 @@ class PaypalController extends Controller
 {
 
     /**
-     * restApi方式支付
-     * @param type $orderId
-     */
-    public function pay($orderId)
-    {
-        $clientId = config('strongshop.payment.paypal.clientId'); //ID
-        $clientSecret = config('strongshop.payment.paypal.clientSecret'); //秘钥
-        $return_url = route('paypal.callback'); //返回地址
-        //订单信息
-        $order = Order::query()->where('id', $orderId)
-                ->with('orderProducts')
-                ->first();
-        if (!$order)
-        {
-            abort(404);
-        }
-        if (!in_array($order->order_status, [Order::STATUS_UNPAID, Order::STATUS_PAY_FAILED]))
-        {
-            abort(201, __('Invalid'));
-        }
-        $apiContext = new ApiContext(new OAuthTokenCredential($clientId, $clientSecret));
-
-        if (\App::environment(['production']))
-        {
-            //如果是沙盒测试环境不设置，请注释掉
-            $apiContext->setConfig(
-                    array(
-                        'mode' => 'live',
-                    )
-            );
-        }
-
-        $currency = $order->currency_code; //货币
-        $invoiceNumber = $order->order_no; //订单号
-        $price = $order->products_amount; //产品金额
-        $shipping = $order->shipping_fee; //运费
-        $description = config('app.name'); //订单描述
-        $total = $order->order_amount; //支付总额
-
-        $address = new ShippingAddress();
-        $address->setRecipientName($order->first_name) //买家名
-                ->setLine1($order->address_line_1)//地址
-                ->setLine2($order->address_line_2)//详情地址
-                ->setCity($order->city)//城市名
-                ->setState($order->state ?: $order->state_other)//省份
-                ->setPhone($order->phone)//手机号码
-                ->setPostalCode($order->postal_code)//邮政编码
-                ->setCountryCode($order->country_code); //国家编号
-
-        $itemList = new ItemList();
-        $itemList->setShippingAddress($address);
-        foreach ($order->orderProducts as $product)
-        {
-            $item = new Item();
-            $item->setName($product['title'])->setCurrency($currency)->setQuantity($product['qty'])->setPrice($product['sale_price']);
-            $itemList->addItem($item);
-        }
-
-        $payer = new Payer();
-        $payer->setPaymentMethod('paypal');
-
-        $details = new Details();
-        $details->setSubtotal($price)->setShipping($shipping)->setHandlingFee($order->handling_fee);
-
-        $amount = new Amount();
-        $amount->setCurrency($currency)
-                //->setDetails($details)
-                ->setTotal($total);
-
-        $transaction = new Transaction();
-        $transaction->setInvoiceNumber($invoiceNumber)
-                ->setAmount($amount)
-                //->setItemList($itemList)
-                ->setDescription($description);
-
-        $redirectUrls = new RedirectUrls();
-        $redirectUrls->setReturnUrl($return_url . '?success=true')->setCancelUrl($return_url . '/?success=false');
-
-        $payment = new Payment();
-        $payment->setIntent('sale')->setPayer($payer)->setRedirectUrls($redirectUrls)->setTransactions([$transaction]);
-        $payment->create($apiContext);
-        $approvalUrl = $payment->getApprovalLink();
-        header("Location: {$approvalUrl}");
-    }
-
-    public function callback(Request $request)
-    {
-        if ($request->success == 'false')
-        {
-            return redirect('/');
-        }
-        $clientId = config('strongshop.payment.paypal.clientId'); //ID
-        $clientSecret = config('strongshop.payment.paypal.clientSecret'); //秘钥
-        $apiContext = new ApiContext(new OAuthTokenCredential($clientId, $clientSecret));
-        $paymentId = $request->paymentId;
-        $PayerID = $request->PayerID;
-
-        $payment = Payment::get($paymentId, $apiContext);
-        $execute = new PaymentExecution();
-        $execute->setPayerId($PayerID);
-        $payment->execute($execute, $apiContext); //执行请求paypal支付信息
-
-        $data = $payment->toArray();
-        $order_no = $data['transactions'][0]['invoice_number'] ?? ''; //订单号
-        $transaction_id = $data['transactions'][0]['related_resources'][0]['sale']['id'] ?? ''; //交易流水号
-        $transaction_status = $data['transactions'][0]['related_resources'][0]['sale']['state'] ?? ''; //交易状态
-        $paid_amount = $data['transactions'][0]['amount']['total'] ?? ''; //支付金额
-        if ($payment->getState() === 'approved')
-        {
-            if ($transaction_status === 'completed')
-            {
-                // 支付完成
-                OrderRepository::paid($order_no, $transaction_id, $paid_amount);
-                abort(200, __('Pay Success'));
-            }
-            OrderRepository ::exception($order_no, '支付异常：' . $transaction_status); //当出现支付异常，请登录paypal平台查看对应订单状态
-            abort(201, __('Pay :status ...', ['status' => $transaction_status]));
-        }
-
-        //支付失败
-        OrderRepository::failed($order_no);
-        abort(201, __('Pay Failed'));
-    }
-
-    /**
      * 表单提交支付
      * @param type $orderId
      */
@@ -323,6 +198,131 @@ class PaypalController extends Controller
         }
 
         return $httpResponse;
+    }
+
+    /**
+     * restApi方式支付
+     * @param type $orderId
+     */
+    public function pay($orderId)
+    {
+        $clientId = config('strongshop.payment.paypal.clientId'); //ID
+        $clientSecret = config('strongshop.payment.paypal.clientSecret'); //秘钥
+        $return_url = route('paypal.callback'); //返回地址
+        //订单信息
+        $order = Order::query()->where('id', $orderId)
+                ->with('orderProducts')
+                ->first();
+        if (!$order)
+        {
+            abort(404);
+        }
+        if (!in_array($order->order_status, [Order::STATUS_UNPAID, Order::STATUS_PAY_FAILED]))
+        {
+            abort(201, __('Invalid'));
+        }
+        $apiContext = new ApiContext(new OAuthTokenCredential($clientId, $clientSecret));
+
+        if (\App::environment(['production']))
+        {
+            //如果是沙盒测试环境不设置，请注释掉
+            $apiContext->setConfig(
+                    array(
+                        'mode' => 'live',
+                    )
+            );
+        }
+
+        $currency = $order->currency_code; //货币
+        $invoiceNumber = $order->order_no; //订单号
+        $price = $order->products_amount; //产品金额
+        $shipping = $order->shipping_fee; //运费
+        $description = config('app.name'); //订单描述
+        $total = $order->order_amount; //支付总额
+
+        $address = new ShippingAddress();
+        $address->setRecipientName($order->first_name) //买家名
+                ->setLine1($order->address_line_1)//地址
+                ->setLine2($order->address_line_2)//详情地址
+                ->setCity($order->city)//城市名
+                ->setState($order->state ?: $order->state_other)//省份
+                ->setPhone($order->phone)//手机号码
+                ->setPostalCode($order->postal_code)//邮政编码
+                ->setCountryCode($order->country_code); //国家编号
+
+        $itemList = new ItemList();
+        $itemList->setShippingAddress($address);
+        foreach ($order->orderProducts as $product)
+        {
+            $item = new Item();
+            $item->setName($product['title'])->setCurrency($currency)->setQuantity($product['qty'])->setPrice($product['sale_price']);
+            $itemList->addItem($item);
+        }
+
+        $payer = new Payer();
+        $payer->setPaymentMethod('paypal');
+
+        $details = new Details();
+        $details->setSubtotal($price)->setShipping($shipping)->setHandlingFee($order->handling_fee);
+
+        $amount = new Amount();
+        $amount->setCurrency($currency)
+                //->setDetails($details)
+                ->setTotal($total);
+
+        $transaction = new Transaction();
+        $transaction->setInvoiceNumber($invoiceNumber)
+                ->setAmount($amount)
+                //->setItemList($itemList)
+                ->setDescription($description);
+
+        $redirectUrls = new RedirectUrls();
+        $redirectUrls->setReturnUrl($return_url . '?success=true')->setCancelUrl($return_url . '/?success=false');
+
+        $payment = new Payment();
+        $payment->setIntent('sale')->setPayer($payer)->setRedirectUrls($redirectUrls)->setTransactions([$transaction]);
+        $payment->create($apiContext);
+        $approvalUrl = $payment->getApprovalLink();
+        header("Location: {$approvalUrl}");
+    }
+
+    public function callback(Request $request)
+    {
+        if ($request->success == 'false')
+        {
+            return redirect('/');
+        }
+        $clientId = config('strongshop.payment.paypal.clientId'); //ID
+        $clientSecret = config('strongshop.payment.paypal.clientSecret'); //秘钥
+        $apiContext = new ApiContext(new OAuthTokenCredential($clientId, $clientSecret));
+        $paymentId = $request->paymentId;
+        $PayerID = $request->PayerID;
+
+        $payment = Payment::get($paymentId, $apiContext);
+        $execute = new PaymentExecution();
+        $execute->setPayerId($PayerID);
+        $payment->execute($execute, $apiContext); //执行请求paypal支付信息
+
+        $data = $payment->toArray();
+        $order_no = $data['transactions'][0]['invoice_number'] ?? ''; //订单号
+        $transaction_id = $data['transactions'][0]['related_resources'][0]['sale']['id'] ?? ''; //交易流水号
+        $transaction_status = $data['transactions'][0]['related_resources'][0]['sale']['state'] ?? ''; //交易状态
+        $paid_amount = $data['transactions'][0]['amount']['total'] ?? ''; //支付金额
+        if ($payment->getState() === 'approved')
+        {
+            if ($transaction_status === 'completed')
+            {
+                // 支付完成
+                OrderRepository::paid($order_no, $transaction_id, $paid_amount);
+                abort(200, __('Pay Success'));
+            }
+            OrderRepository ::exception($order_no, '支付异常：' . $transaction_status); //当出现支付异常，请登录paypal平台查看对应订单状态
+            abort(201, __('Pay :status ...', ['status' => $transaction_status]));
+        }
+
+        //支付失败
+        OrderRepository::failed($order_no);
+        abort(201, __('Pay Failed'));
     }
 
 }
