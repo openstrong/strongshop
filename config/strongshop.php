@@ -93,6 +93,7 @@ return [
         //paypal
         'paypal' => [
             'business' => env('PAYMENT_PAYPAL_BUSINESS'), //收款账号
+            'env' => env('PAYMENT_PAYPAL_ENV', 'sandbox'), //环境
         ],
     ],
 ];

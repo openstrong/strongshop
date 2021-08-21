@@ -60,9 +60,12 @@ class PaypalController extends Controller
         $cancel_url = config('app.url');
         $return_url = route('paypal.return');
         $notify_url = route('paypal.notify');
-        $business = $model->more['business'] ?? config('strongshop.payment.paypal.business'); //收款账号
+        //收款账号
+        $business = $model->more['business'] ?? config('strongshop.payment.paypal.business');
         //默认设置结算货币
         $defaultCurrencyPay = $model->more['currency'] ?? config('strongshop.defaultCurrencyPay');
+        //环境
+        $env = $model->more['env'] ?? config('strongshop.env');
 
         $description = config('app.name'); //订单描述
         $currency = $order->currency_code; //订单货币
@@ -79,9 +82,12 @@ class PaypalController extends Controller
             $total = AppRepository::convertCurrencyToDefault($total, $currency_rate);
         }
 
-        if (\App::environment(['production']))
+        if ($env === 'live')
         {
             $url = 'https://www.paypal.com/cgi-bin/webscr';
+        } elseif ($env === 'sandbox')
+        {
+            $url = 'https://www.sandbox.paypal.com/cgi-bin/webscr';
         } else
         {
             $url = 'https://www.sandbox.paypal.com/cgi-bin/webscr';

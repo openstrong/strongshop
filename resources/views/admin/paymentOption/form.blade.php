@@ -47,14 +47,14 @@
                 <label class="layui-form-label st-form-input-required">收款账号</label>
                 <div class="layui-input-block">
                     <input type="text" name="more[business]" value="{{$model->more['business'] ?? ''}}" autocomplete="off" placeholder="" class="layui-input">
-                    <div class="layui-word-aux st-form-tip layui-show"></div>
+                    <div class="layui-word-aux st-form-tip layui-show">沙盒测试环境账号：sb-nq75t7063330@business.example.com</div>
                 </div>
             </div>
             <div class="layui-form-item">
                 <label class="layui-form-label"><i class="layui-icon layui-icon-help st-form-tip-help"></i>手续费</label>
                 <div class="layui-input-block">
                     <input type="text" name="more[rate]" value="{{$model->more['rate'] ?? ''}}" autocomplete="off" placeholder="5% 按比例收取； 20 按金额收取" class="layui-input">
-                    <div class="layui-word-aux st-form-tip layui-show">例1：5%，按比例收取； 例2：20，按金额收取</div>
+                    <div class="layui-word-aux st-form-tip layui-show">如果包含 % 则按比例收取，否则按该数字金额收取</div>
                 </div>
             </div>
             <div class="layui-form-item">
@@ -62,6 +62,16 @@
                 <div class="layui-input-block">
                     <input type="text" name="more[currency]" value="{{$model->more['currency'] ?? ''}}" autocomplete="off" placeholder="" class="layui-input">
                     <div class="layui-word-aux st-form-tip layui-show">结算货币，不设置则自动识别</div>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label"><i class="layui-icon layui-icon-help st-form-tip-help"></i>环境</label>
+                <div class="layui-input-block">
+                    <select name="more[env]">
+                        <option value="sandbox" @if(isset($model->more['env']) && $model->more['env']=='sandbox') selected @endif > Sandbox 沙盒测试环境 </option>
+                        <option value="live" @if(isset($model->more['env']) && $model->more['env']=='live') selected @endif > 正式环境 </option>
+                    </select>
+                    <div class="layui-word-aux st-form-tip layui-show">如果是 正式环境，请修改`收款账号`为正式商户收款账号</div>
                 </div>
             </div>
         </div>
