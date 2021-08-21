@@ -46,6 +46,7 @@ StrongShop 是基于 PHP Laravel 框架开发的一款 Web 商城系统。<br/>
 - 演示站点（前台主页） https://www.strongshop.cn
 - 演示站点（后台管理） https://www.strongshop.cn/admin/home
 - 后台演示账号：demo 密码：demo123
+- 前台如果想进行 paypal 支付，请使用测试 paypal 账号：sb-cjlll7063329@personal.example.com 密码：88888888
 
 ## 免责声明
 遵循BSD-3-Clause开源协议 <br/>
