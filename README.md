@@ -53,9 +53,9 @@ https://opensource.org/licenses/BSD-3-Clause <br/>
 http://www.strongshop.cn/license
 
 ## 捐赠
-感谢您使用 "strongshop"
-感谢您的捐赠，它将有助于 "strongshop" 的后续开发。
-捐赠将用于硬件、软件、服务器托管和其他费用。
+感谢您使用 "strongshop" <br/>
+感谢您的捐赠，它将有助于 "strongshop" 的后续开发。 <br/>
+捐赠将用于硬件、软件、服务器托管和其他费用。 <br/>
 开源项目离不开你的支持和鼓励，请备注您的信息，将用于账目公开。
 
 ######微信捐赠
