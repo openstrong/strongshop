@@ -5099,7 +5099,7 @@ CREATE TABLE `st_webconfig`  (
 -- ----------------------------
 -- Records of st_webconfig
 -- ----------------------------
-INSERT INTO `st_webconfig` VALUES (1, 'notice', '免费开源的跨境电商网站。', '2021-08-07 11:31:30', '2021-08-11 21:09:40');
+INSERT INTO `st_webconfig` VALUES (1, 'notice', '免费开源的跨境电商网站。<a href="/admin/home" class="btn btn-primary btn-sm">进入后台管理</a>', '2021-08-07 11:31:30', '2021-08-11 21:09:40');
 INSERT INTO `st_webconfig` VALUES (2, 'store_title', 'StrongShop 商城 - 免费开源的跨境电商网站', '2021-08-07 11:32:23', '2021-08-11 20:26:10');
 INSERT INTO `st_webconfig` VALUES (3, 'meta_keywords', '跨境电商，电商网站，Laravel商城，PHP商城，StrongShop', '2021-08-07 11:33:26', '2021-08-11 20:26:10');
 INSERT INTO `st_webconfig` VALUES (4, 'meta_description', 'StrongShop 是一款免费开源的跨境电商商城网站。基于 PHP Laravel6 框架开发，遵循BSD-4-Clause开源协议,免费商用，支持多语言，多货币，多种国际配送方式，PayPal 支付，国际信用卡支付，PC Web 端和移动端自适应。', '2021-08-07 11:35:12', '2021-08-11 20:35:56');
