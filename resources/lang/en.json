@@ -1,0 +1,13 @@
+{
+    "Your email address is not verified. It is strongly recommended that you verify the email": "Your email address has not been verified, we strongly recommend you to complete email address verification so that you can retrieve your password and receive shipping notification emails.<button type=\"button\" class=\"btn btn-link p-0 m-0 align-baseline\" onclick=\"Util.resendEmailVerify();\">Verify Your Email Address</button>",
+    "Address Line 1": "Address",
+    "Shipping Cost": "Shipping total",
+    "Handing Cost": "Handing total",
+    "Tax Cost": "Tax",
+    "Order Remark": "Order remark",
+    "Order Total": "Order total",
+    "Products Amount": "Item total",
+    "Shipping Cost": "Shipping total",
+    "Handing Cost": "Handing total",
+    "Tax Cost": "Tax"
+}
