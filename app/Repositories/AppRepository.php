@@ -278,6 +278,7 @@ class AppRepository
         config(['mail.port' => $MAIL_PORT]);
         config(['mail.username' => $MAIL_USERNAME]);
         config(['mail.password' => $MAIL_PASSWORD]);
+        config(['mail.from.address' => $MAIL_USERNAME]);
         config(['mail.encryption' => $MAIL_ENCRYPTION]);
         config(['mail.reply_to.address' => $MAIL_REPLYTO_ADDRESS]);
         config(['mail.reply_to.name' => $MAIL_REPLYTO_NAME]);
