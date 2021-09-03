@@ -63,7 +63,7 @@ class PaypalController extends Controller
         //收款账号
         $business = $model->more['business'] ?? config('strongshop.payment.paypal.business');
         //默认设置结算货币
-        $defaultCurrencyPay = $model->more['currency'] ?? config('strongshop.defaultCurrencyPay');
+        $defaultCurrencyPay = isset($model->more['currency']) || $model->more['currency'] == null ? $model->more['currency'] : config('strongshop.defaultCurrencyPay');
         //环境
         $env = $model->more['env'] ?? config('strongshop.env');
 
